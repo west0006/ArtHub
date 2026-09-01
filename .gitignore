@@ -74,5 +74,9 @@ pnpm-debug.log*
 **/*.md
 *.txt
 
+# 豁免：依赖清单 / 环境变量模板需提交（属构建必需）
+!**/requirements.txt
+!**/.env.example
+
 # 本地 API 地址配置不推送
 ArtHub-web/.env.local
