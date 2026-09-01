@@ -1,0 +1,276 @@
+/* pages/calendar/index.wxss - 夸克粗边框圆角风格（仅风格，尺寸完全保留原布局） */
+
+page {
+  --primary-black: #1a1a1a;
+  --border-heavy: #1a1a1a;
+  --bg-page: #ffffff;
+  --bg-surface: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5a5a5a;
+  --text-tertiary: #8a8a8a;
+  --accent-green: #2e7d32;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.calendar-container {
+  background-color: var(--bg-page);
+}
+
+/* 状态栏 —— 仅改颜色/边框/圆角，尺寸不动 */
+.status-bar {
+  background: var(--bg-surface);
+  margin: 0 var(--large-plate) var(--large-module);      /* 原尺寸保留 */
+  padding: var(--title-content);                          /* 原尺寸保留 */
+  border-top: var(--border-thin) solid var(--border-top-light);
+  border-left: var(--border-thin) solid var(--border-top-light);
+  border-right: var(--border-thick) solid var(--border-bottom-dark);
+  border-bottom: var(--border-thick) solid var(--border-bottom-dark);
+  border-radius: 8rpx;                                    /* 圆角 */
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.status-label {
+  font-size: 24rpx;                     /* 原28rpx调小，仅字体 */
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;                  /* 原尺寸保留 */
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-value {
+  font-size: 30rpx;                     /* 原34rpx调小 */
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.busy-status,
+.deadline {
+  font-weight: 800;
+  border-bottom: 4rpx solid var(--accent-green);
+  padding-bottom: 2rpx;
+}
+
+.free-status,
+.next-order {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 月份容器 —— 仅改背景/边框/圆角/颜色，间距尺寸不动 */
+.months-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--large-plate);          /* 原尺寸保留 */
+  gap: var(--large-module);               /* 原尺寸保留 */
+}
+
+.month-card {
+  background: var(--bg-surface);
+  border-top: var(--border-thin) solid var(--border-top-light);
+border-left: var(--border-thin) solid var(--border-top-light);
+border-right: var(--border-thick) solid var(--border-bottom-dark);
+border-bottom: var(--border-thick) solid var(--border-bottom-dark);
+border-radius: 8rpx;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+/* 月份标题 */
+.month-header {
+  background: var(--accent-green);        /* 绿色背景 */
+  padding: var(--title-content);          /* 原尺寸保留 */
+  text-align: center;                     /* 保留原居中 */
+  border-bottom: 4rpx solid var(--border-heavy);
+}
+
+.month-title {
+  font-size: 32rpx;                       /* 原尺寸保留 */
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* 星期标题 */
+.weekdays {
+  display: flex;
+  padding: 20rpx 0;                       /* 原尺寸保留 */
+  border-bottom: 4rpx solid var(--border-heavy);
+}
+
+.weekday {
+  flex: 1;
+  text-align: center;
+}
+
+.weekday-text {
+  font-size: 26rpx;                       /* 原尺寸保留 */
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+/* 日期网格 —— 布局尺寸完全保留 */
+.days-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--card-meta);              /* 原尺寸保留 */
+}
+
+.day {
+  width: calc(100% / 7);
+  height: 80rpx;
+  box-sizing: border-box;                 /* 保证边框不撑大宽度 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid transparent;
+  border-radius: 6rpx;
+  transition: none;
+  margin-bottom: 10rpx;
+  position: relative;
+  background-color: transparent;
+}
+
+.day:active {
+  background-color: var(--primary-black);
+}
+.day:active .day-text {
+  color: #ffffff;
+}
+
+.day.current-month {
+  color: var(--text-primary);
+}
+
+.day.other-month {
+  color: var(--text-tertiary);
+}
+
+/* 今日 —— 仅颜色/边框，尺寸不动 */
+.day.today {
+  background: transparent !important;
+  border: 4rpx solid var(--accent-green) !important;
+}
+.day.today .day-text {
+  color: var(--accent-green) !important;
+  font-weight: 800;
+}
+
+/* 选中日期 —— 仅颜色/边框，尺寸不动 */
+.day.selected {
+  background: var(--accent-green) !important;
+  border: 4rpx solid var(--accent-green) !important;
+}
+.day.selected .day-text {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.day-text {
+  font-size: 26rpx;                       /* 原尺寸保留 */
+  font-weight: 500;
+  line-height: 1;                         /* 改善对齐，不改变盒模型 */
+  color: inherit;
+  z-index: 2;
+}
+
+.day-text.other-month {
+  color: var(--text-tertiary);
+}
+
+/* 订单指示器 —— 仅颜色，尺寸/定位不变 */
+.order-indicator {
+  position: absolute;
+  bottom: 8rpx;
+  width: 30rpx;
+  height: 8rpx;
+  background: var(--accent-green);
+  border-radius: 8rpx;
+  z-index: 1;
+}
+
+.order-indicator.free {
+  background: var(--accent-green);
+  opacity: 1;
+}
+
+.order-indicator.other-month {
+  opacity: 0.2;
+}
+
+/* 图例 —— 仅颜色/边框/圆角，尺寸保留 */
+.legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32rpx;                              /* 原尺寸保留 */
+  padding: var(--title-content);           /* 原尺寸保留 */
+  background: var(--bg-surface);
+  margin: var(--large-module) var(--large-plate) 0; /* 原尺寸保留 */
+  border: 6rpx solid var(--border-heavy);
+  border-radius: 8rpx;
+  box-shadow: none;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;                              /* 原尺寸保留 */
+  font-size: 24rpx;                        /* 调小字体，不影响布局 */
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 24rpx;                            /* 原尺寸保留 */
+  height: 24rpx;
+  border: 3rpx solid var(--border-heavy);
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.today-color {
+  background: transparent;
+  border: 3rpx solid var(--accent-green);
+}
+
+.selected-color {
+  background: var(--accent-green);
+  border: 3rpx solid var(--accent-green);
+}
+
+.order-color {
+  background: var(--accent-green);
+  border: none;
+  width: 24rpx;
+  height: 4rpx;
+}
+
+.current-color {
+  background: var(--primary-black);
+  border: none;
+}
+
+.legend-text {
+  color: var(--text-primary);
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.bottom-safe-area {
+  height: 40rpx;                           /* 原尺寸保留 */
+  background: transparent;
+}

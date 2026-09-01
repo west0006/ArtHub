@@ -1,0 +1,131 @@
+/* 夸克粗边框卡片 */
+.card-quark {
+  background: var(--page-back);
+  border-top: var(--border-thin) solid var(--border-top-light);
+  border-left: var(--border-thin) solid var(--border-top-light);
+  border-right: var(--border-thick) solid var(--border-bottom-dark);
+  border-bottom: var(--border-thick) solid var(--border-bottom-dark);
+  border-radius: 4px;
+  box-shadow: none;
+  padding: var(--title-content);
+}
+
+/* 夸克粗边框按钮 */
+.btn-quark {
+  background: var(--page-back);
+  color: var(--main-text);
+  border-top: var(--border-thin) solid var(--border-top-light);
+  border-left: var(--border-thin) solid var(--border-top-light);
+  border-right: var(--border-thick) solid var(--border-bottom-dark);
+  border-bottom: var(--border-thick) solid var(--border-bottom-dark);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.btn-quark:hover {
+  background: var(--main-color-light);
+}
+
+.btn-quark:active {
+  background: var(--main-color);
+  color: #ffffff;
+  border-color: var(--main-color);
+}
+
+/* 主要操作按钮 */
+.btn-quark-primary {
+  background: var(--main-color);
+  color: #ffffff;
+  border-color: var(--main-color);
+}
+
+.btn-quark-primary:hover {
+  background: var(--main-color-deep);
+}
+
+/* 危险按钮 */
+.btn-quark-danger {
+  background: var(--com-color-warn);
+  color: #ffffff;
+  border-color: var(--com-color-warn);
+}
+
+/* 通用输入框 */
+.input-quark {
+  border-top: var(--border-thin) solid var(--border-top-light);
+  border-left: var(--border-thin) solid var(--border-top-light);
+  border-right: var(--border-medium) solid var(--border-bottom-dark);
+  border-bottom: var(--border-medium) solid var(--border-bottom-dark);
+  border-radius: 4px;
+  padding: 0.5rem;
+  outline: none;
+  background: var(--page-back);
+  color: var(--main-text);
+}
+
+.input-quark:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 1px var(--main-color-light);
+}
+
+/* 表格（夸克风格） */
+.table-quark {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--page-back);
+  border-top: var(--border-thin) solid var(--border-top-light);
+  border-left: var(--border-thin) solid var(--border-top-light);
+  border-right: var(--border-thick) solid var(--border-bottom-dark);
+  border-bottom: var(--border-thick) solid var(--border-bottom-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.table-quark th {
+  background: var(--main-color-light);
+  color: var(--main-text);
+  font-weight: 600;
+  padding: 0.75rem;
+  border-right: 1px solid var(--border-top-light);
+}
+
+.table-quark td {
+  padding: 0.75rem;
+  border-right: 1px solid var(--extra-light);
+  border-bottom: 1px solid var(--extra-light);
+}
+
+.table-quark tr:last-child td {
+  border-bottom: none;
+}
+
+.table-quark tr:hover td {
+  background: var(--main-color-light);
+}
+
+/* 状态标签 */
+.status-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-completed {
+  background: #d1fae5;
+  color: #065f46;
+}

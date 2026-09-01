@@ -1,0 +1,105 @@
+/**app.wxss**/
+@import '/miniprogram_npm/@vant/weapp/common/index.wxss';
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}
+
+/* 通用页面容器样式，所有页面都应使用 */
+.page-container {
+  min-height: 100vh;
+  /* 预留底部标签栏空间：100rpx标签栏高度 + 20rpx安全距离 */
+  padding-bottom: 120rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 内容区域 - 可滚动 */
+.content-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 固定底部操作栏 */
+.fixed-bottom-actions {
+  position: fixed;
+  bottom: 120rpx;
+  /* 在标签栏上方 */
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 20rpx 32rpx;
+  border-top: 1rpx solid #eaeaea;
+  z-index: 999;
+}
+
+page {
+  /* 配色 */
+  --main-color: #16a085;
+  --main-color-light: #e8f8f5;
+  --main-color-deep: #0e7b65;
+
+  --com-color-warm: #e9c88e;
+  /* 暖黄 */
+  --com-color-cold: #3498db;
+  /* 冷蓝 */
+  --com-color-warn: #e74c3c;
+  /* 警告红 */
+
+  /* 文本色 */
+  --main-text: #333333;
+  --com-text: #666666;
+  --low-color: #757575;
+  /* 次要文本，提升可读性 */
+  --extra-light: #f5f5f5;
+  /* 分割线/背景 */
+
+  --page-back: #ffffff;
+  --list-detail: #e8f8f5;
+
+  --deep-mian-color: #1abc9c;
+  /* 深色主色 */
+  --deep-back-color: #1a1a1a;
+  --deep-text-color: #f0f0f0;
+  --deep-com-text: #b0b0b0;
+
+  --other-1: #78dbce;
+
+  /* 排版 */
+
+  /* 留白margin */
+  /*大型板块 */
+  --large-plate: 48rpx;
+  /* 不同模块 */
+  --large-module: 32rpx;
+  /* 标题与内容，卡片间距 */
+  --title-content: 24rpx;
+  /* 卡片内元素 */
+  --card-meta: 16rpx;
+
+  --border-top-light: #cccccc;      /* 上/左侧用浅色制造光照 */
+  --border-bottom-dark: #1a1a1a;    /* 下/右侧用深色制造阴影 */
+  --border-thin: 2rpx;
+  --border-thick: 6rpx;
+  --border-medium: 4rpx;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-back: var(--deep-back-color);
+    --main-text: var(--deep-text-color);
+    --com-text: var(--deep-com-text);
+    --low-color: #808080;
+    --main-color: var(--deep-mian-color);
+    --main-color-light: #1a3b34;
+    /* 深色模式下的浅色背景 */
+    --list-detail: #1e2b27;
+  }
+}

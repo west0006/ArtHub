@@ -1,0 +1,40 @@
+<view class="page-container settings-page">
+
+  <!-- 用户信息卡片 -->
+  <view class="user-card" bindtap="onEditProfile">
+    <image class="avatar" src="{{userInfo.avatarUrl || '../../images/t1.png'}}" mode="aspectFill" />
+    <view class="user-info">
+      <text class="nickname">{{userInfo.nickname || '未登录用户'}}</text>
+      <text class="uid">ID: {{userInfo.id || '—'}}</text>
+    </view>
+    <van-icon name="arrow" size="28rpx" color="#999" />
+  </view>
+
+  <!-- 设置列表 -->
+  <view class="settings-group">
+    <view class="setting-item" bindtap="onEditProfile">
+      <van-icon name="edit" size="36rpx" color="#333" />
+      <text class="item-text">编辑资料</text>
+      <van-icon name="arrow" size="28rpx" color="#ccc" />
+    </view>
+
+    <view class="setting-item" bindtap="onClearCache">
+      <van-icon name="delete-o" size="36rpx" color="#333" />
+      <text class="item-text">清除缓存</text>
+      <text class="item-desc">{{cacheSize}}</text>
+      <van-icon name="arrow" size="28rpx" color="#ccc" />
+    </view>
+
+    <view class="setting-item" bindtap="onAbout">
+      <van-icon name="info-o" size="36rpx" color="#333" />
+      <text class="item-text">关于艺栈</text>
+      <text class="item-desc">{{version}}</text>
+      <van-icon name="arrow" size="28rpx" color="#ccc" />
+    </view>
+  </view>
+
+  <!-- 退出登录按钮 -->
+  <view class="logout-section" wx:if="{{userInfo}}">
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+</view>

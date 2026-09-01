@@ -1,0 +1,50 @@
+<!--pages/studios/studios.wxml-->
+<view class="page-container studios-page">
+	<view class="nav">
+		<view class="nav_search" bindtap="gotoSearch">
+			<van-icon name="search" size="40rpx" color="#666666" />
+			<text class="search-text">搜索素材和教程</text>
+		</view>
+		<view class="nav_tag">
+			<view class="nav_text {{currentTag === 1 ? 'active' : ''}}" bindtap="tolearn1">素材</view>
+			<view class="nav_text {{currentTag === 2 ? 'active' : ''}}" bindtap="tolearn2">教程</view>
+		</view>
+	</view>
+
+	<view class="content-container">
+		<van-tabs active="{{active}}" bind:change="onChange" animated sticky swipeable class="category-tabs">
+			<van-tab wx:for="{{type}}" wx:key="index" title="{{item.name}}">
+				<scroll-view class="tab-content-scroll" scroll-y>
+					<view class="resource-grid">
+						<view class="resource-item" wx:for="{{resourceList}}" wx:key="id" bindtap="onResourceTap" bindlongpress="onResourceLongPress" data-item="{{item}}">
+							<view class="resource-image">
+								<image class="resource-img" src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
+								<view class="resource-badge" wx:if="{{item.isNew}}">NEW</view>
+								<view class="library-badge" wx:if="{{item.isInLibrary}}">
+									<van-icon name="passed" size="24rpx" color="#ffffff" />
+									<text>已入库</text>
+								</view>
+							</view>
+							<view class="resource-info">
+								<text class="resource-title">{{item.title}}</text>
+								<view class="resource-meta">
+									<text class="resource-author">{{item.author}}</text>
+								</view>
+							</view>
+						</view>
+					</view>
+
+					<view class="empty-state" wx:if="{{resourceList.length === 0}}">
+						<van-icon name="photo-o" size="120rpx" color="#cccccc" />
+						<text class="empty-text">暂无内容</text>
+						<text class="empty-subtext">去其他地方看看吧</text>
+					</view>
+				</scroll-view>
+				<view class="bottom-safe-area" style="height: 60rpx;"></view>
+			</van-tab>
+		</van-tabs>
+	</view>
+
+	<ai_float/>
+	<van-action-sheet show="{{showActionSheet}}" actions="{{actions}}" bind:close="onCloseActionSheet" bind:select="onSelectAction" close-on-click-action />
+</view>

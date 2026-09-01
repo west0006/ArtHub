@@ -1,0 +1,298 @@
+/* pages/detail/detail.wxss - 夸克立体粗边框 + 绿色点缀 */
+
+.page-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+/* 导航头部 - 粗黑下边框保持不变 */
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background-color: #ffffff;
+  border-bottom: 6rpx solid #1a1a1a;
+}
+
+.nav-back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+}
+
+.nav-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+
+.nav-actions {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+}
+
+/* 通用卡片样式 - 立体边框 */
+.order-basic-info,
+.time-info-section,
+.description-section,
+.setting-section,
+.images-section {
+  background-color: #ffffff;
+  margin: 24rpx 32rpx;
+  border-radius: 8rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+  /* 立体边框：上左浅色细边，下右深色粗边 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 6rpx solid #1a1a1a;
+  border-bottom: 6rpx solid #1a1a1a;
+}
+
+/* 订单头部 */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28rpx;
+}
+
+.order-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  flex: 1;
+  margin-right: 20rpx;
+  line-height: 1.3;
+}
+
+/* 状态标签 - 立体边框 */
+.order-status {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 18rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  white-space: nowrap;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  box-sizing: border-box;
+  /* 立体边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 3rpx solid #1a1a1a;
+  border-bottom: 3rpx solid #1a1a1a;
+}
+
+.order-status.pending {
+  border-left-width: 8rpx;
+  border-left-color: #2e7d32;
+}
+
+.order-status.progress {
+  border-left-width: 8rpx;
+  border-left-color: #2e7d32;
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.order-status.completed {
+  border-left-width: 8rpx;
+  border-left-color: #1a1a1a;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.order-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.meta-label {
+  font-size: 26rpx;
+  color: #5a5a5a;
+  font-weight: 500;
+  min-width: 120rpx;
+}
+
+.meta-value {
+  font-size: 26rpx;
+  color: #1a1a1a;
+  font-weight: 600;
+  flex: 1;
+}
+
+.total-amount {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 3rpx solid #2e7d32;
+  padding-bottom: 4rpx;
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 24rpx;
+  border-left: 8rpx solid #2e7d32;
+  padding-left: 20rpx;
+}
+
+/* 时间卡片 - 立体边框 */
+.time-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.time-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 20rpx;
+  background-color: #ffffff;
+  border-radius: 6rpx;
+  box-sizing: border-box;
+  /* 立体边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 4rpx solid #1a1a1a;
+  border-bottom: 4rpx solid #1a1a1a;
+}
+
+.time-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.time-label {
+  font-size: 24rpx;
+  color: #5a5a5a;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+
+.time-value {
+  font-size: 26rpx;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+/* 描述和设定内容 */
+.description-content,
+.setting-content {
+  font-size: 26rpx;
+  color: #1a1a1a;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* 图片网格 */
+.images-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+/* 图片项 - 立体边框 */
+.image-item {
+  width: calc(33.333% - 11rpx);
+  aspect-ratio: 1;
+  border-radius: 6rpx;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* 立体边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 4rpx solid #1a1a1a;
+  border-bottom: 4rpx solid #1a1a1a;
+}
+
+.reference-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 操作按钮栏 - 顶部粗边框不变 */
+.action-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  padding: 24rpx 32rpx;
+  border-top: 6rpx solid #1a1a1a;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.btn-group {
+  display: flex;
+  gap: 20rpx;
+}
+
+/* 按钮 - 立体按压效果 */
+.btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: none;
+  /* 立体边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 5rpx solid #1a1a1a;
+  border-bottom: 5rpx solid #1a1a1a;
+}
+
+.btn:active {
+  transform: translateY(2rpx);
+  border-top: 4rpx solid #1a1a1a;
+  border-left: 4rpx solid #1a1a1a;
+  border-right: 2rpx solid #cccccc;
+  border-bottom: 2rpx solid #cccccc;
+}
+
+.btn.secondary {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.btn.danger {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+/* 底部安全区域 */
+.bottom-safe-area {
+  height: env(safe-area-inset-bottom);
+  background-color: transparent;
+}

@@ -1,0 +1,104 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  openid       String?  @unique @db.VarChar(100)
+  unionid      String?  @db.VarChar(100)
+  nickname     String?  @db.VarChar(50)
+  avatarUrl    String?  @map("avatar_url") @db.VarChar(255)
+  phone        String?  @db.VarChar(20)
+  role         Int      @default(0) @db.TinyInt
+  refreshToken String?  @map("refresh_token") @db.VarChar(500)
+  createTime   DateTime @default(now()) @map("create_time")
+  updateTime   DateTime @updatedAt @map("update_time")
+
+  orders         Order[]
+  materials      Material[]
+  agentFeedbacks AgentFeedback[]
+  adminLogs      AdminLog[]
+
+  email        String? @unique @db.VarChar(100)
+  passwordHash String? @map("password_hash") @db.VarChar(255)
+
+  @@map("users")
+}
+
+model Order {
+  id              Int      @id @default(autoincrement())
+  title           String   @db.VarChar(255)
+  clientName      String?  @map("client_name") @db.VarChar(255)
+  totalAmount     Decimal  @default("0.00") @map("total_amount") @db.Decimal(10, 2)
+  deadline        String?  @db.VarChar(50)
+  status          String   @default("pending") @db.VarChar(20)
+  quantity        Int?
+  price           Int?
+  startDate       String?  @map("start_date") @db.VarChar(50)
+  windowName      String?  @map("window_name") @db.VarChar(255)
+  description     String?  @db.Text
+  platform        String?  @db.VarChar(50)
+  platformOrderId String?  @map("platform_order_id") @db.VarChar(100)
+  platformUrl     String?  @map("platform_url") @db.VarChar(500)
+  importMethod    String?  @map("import_method") @db.VarChar(50)
+  createTime      DateTime @default(now()) @map("create_time")
+
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("orders")
+}
+
+model Material {
+  id             Int      @id @default(autoincrement())
+  title          String   @db.VarChar(255)
+  description    String?  @db.Text
+  fileUrl        String   @map("file_url") @db.VarChar(500)
+  thumbnailUrl   String?  @map("thumbnail_url") @db.VarChar(500)
+  tags           String?  @db.VarChar(255)
+  colorPalette   String?  @map("color_palette") @db.VarChar(500)
+  sourcePlatform String?  @map("source_platform") @db.VarChar(50)
+  sourceUrl      String?  @map("source_url") @db.VarChar(500)
+  copyright      String?  @db.VarChar(50)
+  fileSize       Int?     @map("file_size")
+  dimension      String?  @db.VarChar(50)
+  createTime     DateTime @default(now()) @map("create_time")
+
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("materials")
+}
+
+model AgentFeedback {
+  id         Int      @id @default(autoincrement())
+  context    String   @db.VarChar(100)
+  suggestion String   @db.Text
+  action     String   @db.VarChar(50)
+  createTime DateTime @default(now()) @map("create_time")
+
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("agent_feedback")
+}
+
+model AdminLog {
+  id         Int      @id @default(autoincrement())
+  action     String   @db.VarChar(100)
+  target     String?  @db.VarChar(100)
+  detail     String?  @db.Text
+  ip         String?  @db.VarChar(50)
+  createTime DateTime @default(now()) @map("create_time")
+
+  adminId Int  @map("admin_id")
+  admin   User @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_logs")
+}

@@ -1,0 +1,117 @@
+<view class="ai-chat-page">
+	<!-- 聊天容器 -->
+	<scroll-view class="chat-container" scroll-y scroll-with-animation scroll-top="{{scrollTop}}" bindscroll="onScroll">
+		<!-- 欢迎消息（无消息时显示） -->
+		<block wx:if="{{messages.length === 0}}">
+			<view class="message-group ai-message">
+				<view class="message-content">
+					<text class="message-sender">花菜</text>
+					<view class="message-bubble ai-bubble">
+						<text class="message-text">您好！我是您的AI创作助手，我可以为您提供：\n\n• 创作灵感与设计方向建议\n• 色彩搭配和构图建议\n• 素材和教程推荐\n• 关键词扩展搜索\n\n请告诉我您需要什么帮助？</text>
+					</view>
+					<text class="message-time">{{currentTime}}</text>
+				</view>
+			</view>
+		</block>
+
+		<!-- 消息列表 -->
+		<block wx:for="{{messages}}" wx:key="id">
+			<view class="message-group {{item.role === 'user' ? 'user-message' : 'ai-message'}}">
+				<view class="message-content {{item.role === 'user' ? 'user-content' : ''}}">
+					<text class="message-sender">{{item.role === 'user' ? '我' : '花菜'}}</text>
+					<view class="message-bubble {{item.role === 'user' ? 'user-bubble' : 'ai-bubble'}}">
+						<text class="message-text">{{item.content}}</text>
+						<!-- 仅AI消息显示操作按钮 -->
+						<view wx:if="{{item.role === 'ai' && item.showActions}}" class="message-actions">
+							<view class="action-btn" bindtap="onCopyMessage" data-content="{{item.content}}">
+								<van-icon name="copy" size="28rpx" color="#666666" />
+								<text>复制</text>
+							</view>
+							<view class="action-btn" bindtap="onRegenerateMessage" data-id="{{item.id}}">
+								<van-icon name="replay" size="28rpx" color="#666666" />
+								<text>重新生成</text>
+							</view>
+						</view>
+					</view>
+					<text class="message-time">{{item.time}}</text>
+				</view>
+			</view>
+		</block>
+
+		<!-- AI 正在输入指示器 -->
+		<block wx:if="{{isAIThinking}}">
+			<view class="message-group ai-message">
+				<view class="message-content">
+					<text class="message-sender">花菜</text>
+					<view class="message-bubble ai-bubble">
+						<view class="typing-indicator">
+							<view class="typing-dot"></view>
+							<view class="typing-dot"></view>
+							<view class="typing-dot"></view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</block>
+	</scroll-view>
+
+	<!-- 快捷提示卡片（仅在无消息时显示） -->
+	<view class="quick-tips" wx:if="{{showQuickTips && messages.length === 0}}">
+		<view class="tips-title">快捷提问</view>
+		<view class="tips-grid">
+			<view class="tip-card" bindtap="onQuickTip" data-tip="给我一些插画创作的灵感">
+				<van-icon name="photo-o" size="40rpx" color="#0A6E51" />
+				<text>插画灵感</text>
+			</view>
+			<view class="tip-card" bindtap="onQuickTip" data-tip="推荐适合水彩画的配色方案">
+				<van-icon name="photo-o" size="40rpx" color="#0A6E51" />
+				<text>色彩搭配</text>
+			</view>
+			<view class="tip-card" bindtap="onQuickTip" data-tip="如何设计一个吸引人的角色形象">
+				<van-icon name="user-circle-o" size="40rpx" color="#0A6E51" />
+				<text>角色设计</text>
+			</view>
+			<view class="tip-card" bindtap="onQuickTip" data-tip="推荐一些平面设计教程">
+				<van-icon name="bookmark-o" size="40rpx" color="#0A6E51" />
+				<text>教程推荐</text>
+			</view>
+		</view>
+	</view>
+
+	<!-- 底部安全区域 -->
+	<view class="bottom-safe-area" style="height: 233rpx;"></view>
+
+	<!-- 输入区域 -->
+	<view class="input-section">
+		<view class="input-container">
+			<textarea class="message-input" placeholder="输入您的问题..." placeholder-class="placeholder" value="{{inputMessage}}" bindinput="onInputMessage" bindconfirm="onSendMessage" maxlength="500" cursor-spacing="20" adjust-position="{{false}}" show-confirm-bar="{{false}}"></textarea>
+			<view class="input-actions">
+				<van-icon wx:if="{{!inputMessage}}" name="add-o" size="40rpx" color="#666666" bindtap="onShowMoreActions" />
+				<van-icon wx:else name="passed" size="40rpx" color="#0A6E51" bindtap="onSendMessage" />
+			</view>
+		</view>
+		<view class="bottom-safe-area" style="height: 18rpx;"></view>
+	</view>
+
+	<!-- 更多操作面板 -->
+	<van-popup show="{{showActionSheet}}" position="bottom" round bind:close="onCloseActionSheet">
+		<view class="action-sheet">
+			<view class="sheet-title">更多操作</view>
+			<view class="sheet-actions">
+				<view class="sheet-item" bindtap="onUploadImage">
+					<van-icon name="photograph" size="40rpx" color="#0A6E51" />
+					<text>上传图片参考</text>
+				</view>
+				<view class="sheet-item" bindtap="onSelectFromLibrary">
+					<van-icon name="photo-o" size="40rpx" color="#0A6E51" />
+					<text>从素材库选择</text>
+				</view>
+				<view class="sheet-item" bindtap="onVoiceInput">
+					<van-icon name="volume-o" size="40rpx" color="#0A6E51" />
+					<text>语音输入</text>
+				</view>
+			</view>
+			<view class="sheet-cancel" bindtap="onCloseActionSheet">取消</view>
+		</view>
+	</van-popup>
+</view>

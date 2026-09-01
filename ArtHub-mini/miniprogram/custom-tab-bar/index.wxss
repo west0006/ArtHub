@@ -1,0 +1,61 @@
+/* custom-tab-bar/index.wxss - 夸克粗边框圆角风 + 绿色点缀 */
+
+.van-tabbar {
+  --tabbar-height: 100rpx;
+  background-color: #ffffff;
+  border-top: 6rpx solid #1a1a1a;          /* 粗黑上边框替代阴影 */
+  box-shadow: none;                        /* 移除阴影 */
+}
+
+.van-tabbar-item {
+  --tabbar-item-margin-bottom: 6rpx;
+  --tabbar-margin-top: 8rpx;
+  --tabbar-item-icon-size: 40rpx;
+  --tabbar-item-active-color: #2e7d32;     /* 绿色激活色 */
+  --tabbar-item-text-size: 24rpx;
+  position: relative;
+}
+
+/* 未选中状态 - 灰黑色 */
+.van-tabbar-item:not(.van-tabbar-item--active) {
+  --tabbar-item-icon-color: #8a8a8a;
+  --tabbar-item-text-color: #5a5a5a;
+}
+
+/* 选中状态强化 */
+.van-tabbar-item--active {
+  --tabbar-item-icon-color: #2e7d32;       /* 绿色图标 */
+  --tabbar-item-text-color: #2e7d32;       /* 绿色文字 */
+  font-weight: 700;                        /* 加粗 */
+}
+
+/* 选中时底部指示条 - 粗短绿线 */
+.van-tabbar-item--active::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx;                            /* 离底部稍近 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48rpx;                            /* 稍宽 */
+  height: 6rpx;                            /* 粗线 */
+  background-color: #2e7d32;
+  border-radius: 0;                        /* 直角，更硬朗 */
+  border: 2rpx solid #1a1a1a;              /* 加黑边强调 */
+  box-sizing: border-box;
+}
+
+/* 点击反馈 - 深色背景 */
+.van-tabbar-item:active {
+  background-color: #1a1a1a !important;     /* 黑底按压 */
+  opacity: 0.05;                           /* 半透明效果 */
+}
+
+/* 图标与文字间距 */
+.van-tabbar-item__icon {
+  margin-bottom: 6rpx !important;
+}
+
+/* 适配安全区域，保持粗边框延伸 */
+.van-tabbar::after {
+  display: none;                           /* 去除 vant 自带分割线 */
+}

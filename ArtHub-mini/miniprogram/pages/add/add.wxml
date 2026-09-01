@@ -1,0 +1,154 @@
+<view class="page-container create-order-container">
+
+	<!-- 表单内容 -->
+	<scroll-view class="form-container" scroll-y>
+		<!-- 基础信息部分 -->
+		<view class="form-section">
+			<view class="section-header">
+				<text class="section-title">基础信息</text>
+			</view>
+
+			<!-- 橱窗名称 -->
+			<view class="form-item">
+				<view class="form-label">
+					<text class="label-text">橱窗名称</text>
+					<text class="required-mark">*</text>
+				</view>
+				<input class="form-input" placeholder="请输入橱窗名称" placeholder-class="placeholder" value="{{windowName}}" bindinput="onWindowNameInput" />
+			</view>
+
+			<!-- 单主名 -->
+			<view class="form-item">
+				<view class="form-label">
+					<text class="label-text">单主名</text>
+					<text class="required-mark">*</text>
+				</view>
+				<input class="form-input" placeholder="请输入单主名称" placeholder-class="placeholder" value="{{clientName}}" bindinput="onClientNameInput" />
+			</view>
+
+			<!-- 价格和数量 -->
+			<view class="form-row">
+				<view class="form-item half-width">
+					<view class="form-label">
+						<text class="label-text">价格</text>
+						<text class="required-mark">*</text>
+					</view>
+					<view class="price-input-container">
+						<input class="form-input price-input" placeholder="0.00" placeholder-class="placeholder" type="digit" value="{{price}}" bindinput="onPriceInput" />
+						<text class="price-unit">元</text>
+					</view>
+				</view>
+
+				<view class="form-item half-width">
+					<view class="form-label">
+						<text class="label-text">数量</text>
+						<text class="required-mark">*</text>
+					</view>
+					<view class="quantity-container">
+						<view class="quantity-btn {{quantity <= 1 ? 'disabled' : ''}}" bindtap="decreaseQuantity">-</view>
+						<input class="form-input quantity-input" value="{{quantity}}" type="number" bindinput="onQuantityInput" />
+						<view class="quantity-btn" bindtap="increaseQuantity">+</view>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 要求描述 -->
+		<view class="form-section">
+			<view class="section-header">
+				<text class="section-title">要求描述</text>
+			</view>
+			<view class="form-item">
+				<textarea class="form-textarea" placeholder="请详细描述稿件要求，包括风格、内容、特殊要求等..." placeholder-class="placeholder" value="{{description}}" bindinput="onDescriptionInput" maxlength="500"></textarea>
+				<view class="textarea-counter">
+					<text class="counter-text">{{description.length}}/500</text>
+				</view>
+			</view>
+		</view>
+
+		<!-- 设定信息 -->
+		<view class="form-section">
+			<view class="section-header">
+				<text class="section-title">设定信息</text>
+				<text class="section-subtitle">可从素材库中添加可参照素材</text>
+			</view>
+			<view class="form-item">
+				<textarea class="form-textarea" placeholder="请输入角色设定、世界观等详细信息..." placeholder-class="placeholder" value="{{settingInfo}}" bindinput="onSettingInfoInput" maxlength="1000"></textarea>
+				<view class="textarea-counter">
+					<text class="counter-text">{{settingInfo.length}}/1000</text>
+				</view>
+			</view>
+
+			<!-- 从素材库添加 -->
+			<view class="add-from-library" bindtap="onAddFromLibrary">
+				<view class="add-icon">+</view>
+				<text class="add-text">从素材库添加参照素材</text>
+			</view>
+		</view>
+
+		<!-- 参考图 -->
+		<view class="form-section">
+			<view class="section-header">
+				<text class="section-title">参考图</text>
+			</view>
+			<view class="form-item">
+				<view class="uploader-container">
+					<view class="uploader-item" wx:for="{{referenceImages}}" wx:key="index" wx:for-item="image">
+						<image class="uploaded-image" src="{{image}}" mode="aspectFill"></image>
+						<view class="delete-btn" bindtap="onDeleteImage" data-index="{{index}}">×</view>
+					</view>
+
+					<view class="uploader-btn" wx:if="{{referenceImages.length < 9}}" bindtap="onChooseImage">
+						<view class="uploader-icon">+</view>
+						<text class="uploader-text">添加图片</text>
+					</view>
+				</view>
+				<view class="uploader-tips">
+					<text class="tips-text">最多可上传9张图片，建议尺寸一致</text>
+				</view>
+			</view>
+		</view>
+
+		<!-- 日期设置 -->
+		<view class="form-section">
+			<view class="section-header">
+				<text class="section-title">日期设置</text>
+			</view>
+
+			<view class="form-item">
+				<view class="form-label">
+					<text class="label-text">开始日期</text>
+				</view>
+				<picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+					<view class="picker-value {{startDate ? '' : 'placeholder'}}">
+						{{startDate ? startDate : '请选择开始日期'}}
+					</view>
+				</picker>
+				<picker mode="time" value="{{startTime}}" bindchange="onStartTimeChange">
+      <view class="picker-value" style="margin-left:20rpx;">{{startTime || '00:00'}}</view>
+    </picker>
+			</view>
+
+			<view class="form-item">
+				<view class="form-label">
+					<text class="label-text">截稿日期</text>
+				</view>
+				<picker mode="date" value="{{deadline}}" bindchange="onDeadlineChange">
+					<view class="picker-value {{deadline ? '' : 'placeholder'}}">
+						{{deadline ? deadline : '请选择截稿日期'}}
+					</view>
+				</picker>
+				<picker mode="time" value="{{deadlineTime}}" bindchange="onDeadlineTimeChange">
+      <view class="picker-value" style="margin-left:20rpx;">{{deadlineTime || '00:00'}}</view>
+    </picker>
+			</view>
+		</view>
+		<view class="bottom-safe-area" style="height: 160rpx;"></view>
+	</scroll-view>
+
+	<!-- 底部操作栏 -->
+	<view class="action-bar">
+		<view class="action-btn cancel-btn" bindtap="onCancel">取消</view>
+		<view class="action-btn confirm-btn" bindtap="onSubmit">确认创建</view>
+	</view>
+</view>

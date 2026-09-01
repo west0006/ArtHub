@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index",
+    "van-button": "@vant/weapp/button/index"
+  },
+  "navigationBarTitleText": "素材详情",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff",
+  "enableShareAppMessage": true,
+  "enableShareTimeline": true
+}

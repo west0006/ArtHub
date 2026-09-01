@@ -1,0 +1,114 @@
+<!-- pages/income/income.wxml -->
+<view class="page-container">
+	<!-- 顶部统计卡片 -->
+	<view class="income-header">
+		<view class="total-income-card">
+			<view class="total-amount">
+				<text class="amount">¥{{totalIncome}}</text>
+				<text class="label">累计收入</text>
+			</view>
+			<view class="income-trend">
+				<text class="trend-text">本月收入: ¥{{monthIncome}}</text>
+				<text class="trend-percent {{incomeTrend >= 0 ? 'up' : 'down'}}">
+					<van-icon name="{{incomeTrend >= 0 ? 'arrow-up' : 'arrow-down'}}" />
+					{{Math.abs(incomeTrend)}}%
+				</text>
+			</view>
+		</view>
+	</view>
+
+	<!-- 收入统计筛选 -->
+	<view class="filter-section">
+		<view class="filter-tabs">
+			<view class="filter-tab {{activeFilter === 'all' ? 'active' : ''}}" bindtap="switchFilter" data-filter="all">
+				全部
+			</view>
+			<view class="filter-tab {{activeFilter === 'month' ? 'active' : ''}}" bindtap="switchFilter" data-filter="month">
+				本月
+			</view>
+			<view class="filter-tab {{activeFilter === 'quarter' ? 'active' : ''}}" bindtap="switchFilter" data-filter="quarter">
+				本季度
+			</view>
+		</view>
+
+		<view class="date-picker">
+			<picker mode="date" fields="month" value="{{selectedDate}}" bindchange="onDateChange">
+				<view class="date-display">
+					<van-icon name="calendar-o" size="32rpx" />
+					<text>{{selectedDate}} ›</text>
+				</view>
+			</picker>
+		</view>
+	</view>
+
+	<!-- 收入图表 -->
+	<view class="chart-section">
+		<view class="section-header">
+			<text class="section-title">收入趋势</text>
+		</view>
+		<view class="chart-container">
+			<!-- 这里可以使用图表组件，暂时用模拟图表 -->
+			<view class="mock-chart">
+				<view class="chart-bars">
+					<view class="chart-bar" wx:for="{{chartData}}" wx:key="month" style="height: {{item.amount / maxChartValue * 200}}rpx;">
+						<text class="bar-amount">¥{{item.amount}}</text>
+						<text class="bar-label">{{item.month}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 收入明细 -->
+	<view class="income-details">
+		<view class="section-header">
+			<text class="section-title">收入明细</text>
+			<text class="section-count">共{{incomeList.length}}笔</text>
+		</view>
+
+		<view class="income-list">
+			<view class="income-item" wx:for="{{incomeList}}" wx:key="id" bindtap="viewOrderDetail" data-id="{{item.orderId}}">
+				<view class="income-info">
+					<view class="order-title">{{item.title}}</view>
+					<view class="order-meta">
+						<text class="client">{{item.client}}</text>
+						<text class="date">{{item.date}}</text>
+					</view>
+				</view>
+
+				<view class="income-amount">
+					<text class="amount">+¥{{item.amount}}</text>
+					<view class="status {{item.status}}">
+						{{item.status === 'completed' ? '已完成' : '进行中'}}
+					</view>
+				</view>
+			</view>
+
+			<view class="empty-state" wx:if="{{incomeList.length === 0}}">
+				<van-icon name="balance-list-o" size="120rpx" color="#cccccc" />
+				<text class="empty-text">暂无收入记录</text>
+				<text class="empty-subtext">完成订单后收入将显示在这里</text>
+			</view>
+		</view>
+	</view>
+
+	<!-- 统计摘要 -->
+	<view class="summary-section">
+		<view class="summary-cards">
+			<view class="summary-card">
+				<view class="summary-value">{{completedOrders}}</view>
+				<view class="summary-label">已完成订单</view>
+			</view>
+			<view class="summary-card">
+				<view class="summary-value">{{averageIncome}}</view>
+				<view class="summary-label">平均单价</view>
+			</view>
+			<view class="summary-card">
+				<view class="summary-value">{{activeFilter === 'month' ? monthlyOrders : totalOrders}}</view>
+				<view class="summary-label">{{activeFilter === 'month' ? '本月订单' : '总订单数'}}</view>
+			</view>
+		</view>
+	</view>
+<ai_float/>
+	<view class="bottom-safe-area"></view>
+</view>

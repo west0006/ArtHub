@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "ai_float": "/components/ai_float/ai_float"
+  },
+  "navigationBarTitleText": "收入统计",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff",
+  "enableShareAppMessage": true
+}

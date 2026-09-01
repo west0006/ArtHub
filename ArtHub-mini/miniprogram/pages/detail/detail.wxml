@@ -1,0 +1,120 @@
+<view class="page-container">
+  <!-- 顶部导航 -->
+  <view class="nav-header">
+    <view class="nav-back" bindtap="onBack">
+      <van-icon name="arrow-left" size="32rpx" color="#333333" />
+    </view>
+    <text class="nav-title">订单详情</text>
+    <view class="nav-actions">
+      <van-icon name="edit" size="32rpx" color="#0A6E51" bindtap="onEditOrder" />
+    </view>
+  </view>
+
+  <!-- 订单基本信息 -->
+  <view class="order-basic-info">
+    <view class="order-header">
+      <text class="order-title">{{orderData.windowName || '未命名订单'}}</text>
+      <view class="order-status {{orderData.status}}">
+        <van-icon name="{{icon}}" size="24rpx" color="{{color}}" />
+        <text>{{status}}</text>
+      </view>
+    </view>
+
+    <view class="order-meta">
+      <view class="meta-item">
+        <van-icon name="user-o" size="28rpx" color="#666666" />
+        <text class="meta-label">客户：</text>
+        <text class="meta-value">{{orderData.clientName || '未知客户'}}</text>
+      </view>
+      <view class="meta-item">
+        <van-icon name="bill-o" size="28rpx" color="#666666" />
+        <text class="meta-label">单价：</text>
+        <text class="meta-value">¥{{orderData.price || 0}}</text>
+      </view>
+      <view class="meta-item">
+        <van-icon name="bag-o" size="28rpx" color="#666666" />
+        <text class="meta-label">数量：</text>
+        <text class="meta-value">{{orderData.quantity || 1}}件</text>
+      </view>
+      <view class="meta-item">
+        <van-icon name="balance-list-o" size="28rpx" color="#666666" />
+        <text class="meta-label">总金额：</text>
+        <text class="meta-value total-amount">¥{{orderData.totalAmount || 0}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间信息 -->
+  <view class="time-info-section">
+    <view class="section-title">时间安排</view>
+    <view class="time-cards">
+      <view class="time-card">
+        <van-icon name="underway-o" size="36rpx" color="#0A6E51" />
+        <view class="time-content">
+          <text class="time-label">开始日期</text>
+          <text class="time-value">{{orderData.startDate || '未设置'}}</text>
+        </view>
+      </view>
+      <view class="time-card">
+        <van-icon name="clock-o" size="36rpx" color="#E64340" />
+        <view class="time-content">
+          <text class="time-label">截止日期</text>
+          <text class="time-value">{{orderData.deadline || '未设置'}}</text>
+        </view>
+      </view>
+      <view class="time-card">
+        <van-icon name="calendar-o" size="36rpx" color="#1989fa" />
+        <view class="time-content">
+          <text class="time-label">总工期</text>
+          <text class="time-value">{{orderData.totalTime ? orderData.totalTime.length : "<1"}}天</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 要求描述 -->
+  <view class="description-section" wx:if="{{orderData.description}}">
+    <view class="section-title">要求描述</view>
+    <view class="description-content">
+      <text>{{orderData.description}}</text>
+    </view>
+  </view>
+
+  <!-- 设定信息 -->
+  <view class="setting-section" wx:if="{{orderData.settingInfo}}">
+    <view class="section-title">设定信息</view>
+    <view class="setting-content">
+      <text>{{orderData.settingInfo}}</text>
+    </view>
+  </view>
+
+  <!-- 参考图片 -->
+  <view class="images-section" wx:if="{{orderData.referenceImages && orderData.referenceImages.length > 0}}">
+    <view class="section-title">参考图片 ({{orderData.referenceImages.length}})</view>
+    <view class="images-grid">
+      <view class="image-item" wx:for="{{orderData.referenceImages}}" wx:key="*this" bindtap="previewImage" data-url="{{item}}">
+        <image class="reference-image" src="{{item}}" mode="aspectFill"></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <view class="btn-group">
+      <button class="btn secondary" bindtap="onChangeStatus" wx:if="{{orderData.status !== 'completed'}}">
+        标记为{{orderData.status === 'pending' ? '进行中' : '已完成'}}
+      </button>
+      <button class="btn danger" bindtap="onDeleteOrder">删除订单</button>
+    </view>
+  </view>
+  <custom-modal show="{{showConfirmModal}}" title="{{modalTitle}}" cancelText="{{modalCancelText}}" confirmText="{{modalConfirmText}}" bind:cancel="onConfirmModalCancel" bind:confirm="onConfirmModalConfirm">
+    <view style="color: var(--com-text); ">
+      {{modalContent}}
+    </view>
+  </custom-modal>
+
+  <ai_float/>
+
+  <!-- 底部安全区域 -->
+  <view class="bottom-safe-area"></view>
+</view>

@@ -1,0 +1,320 @@
+/* pages/orderView/orderView.wxss - 夸克粗边框立体感风 + 绿色点缀 */
+
+.page-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* 导航头部 - 粗黑下边框 */
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background-color: #ffffff;
+  border-bottom: 6rpx solid #1a1a1a;
+  position: relative;
+}
+
+.nav-back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+}
+
+.nav-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+
+.nav-actions {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+}
+
+/* 标签栏 - 粗边框分割 */
+.tabs-container {
+  background-color: #ffffff;
+  position: relative;
+  border-bottom: 4rpx solid #1a1a1a;
+}
+
+.tabs {
+  display: flex;
+  padding: 0 32rpx;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #5a5a5a;
+  transition: none;
+}
+
+.tab.active {
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+.tab-count {
+  font-size: 20rpx;
+  margin-top: 4rpx;
+  font-weight: 500;
+}
+
+/* 指示器 - 粗短绿条 */
+.tab-indicator {
+  position: absolute;
+  bottom: -2rpx;
+  left: 0;
+  width: 25%;
+  height: 6rpx;
+  background-color: #2e7d32;
+  border: 2rpx solid #1a1a1a;
+  box-sizing: border-box;
+  transition: transform 0.2s ease;
+}
+
+/* 订单列表 */
+.orders-scroll {
+  height: calc(100vh - 240rpx);
+}
+
+.orders-list {
+  padding: 24rpx 32rpx;
+}
+
+/* 订单卡片 - 立体粗边框 */
+.order-item {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  /* 立体边框：上左浅色细边，下右深色粗边 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 6rpx solid #1a1a1a;
+  border-bottom: 6rpx solid #1a1a1a;
+  box-sizing: border-box;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.order-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+/* 状态标签 - 粗边框+左侧强调条 */
+.order-status {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 8rpx 16rpx;
+  border: 3rpx solid #1a1a1a;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  white-space: nowrap;
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.order-status.pending {
+  border-left-width: 8rpx;
+  border-left-color: #2e7d32;
+}
+
+.order-status.progress {
+  border-left-width: 8rpx;
+  border-left-color: #2e7d32;
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.order-status.completed {
+  border-left-width: 8rpx;
+  border-left-color: #1a1a1a;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+/* 订单元信息 */
+.order-meta {
+  margin-bottom: 24rpx;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex: 1;
+}
+
+.meta-text {
+  font-size: 24rpx;
+  color: #5a5a5a;
+  font-weight: 500;
+}
+
+/* 操作按钮区域 */
+.order-actions {
+  display: flex;
+  gap: 16rpx;
+  border-top: 3rpx solid #1a1a1a;
+  padding-top: 24rpx;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 16rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  transition: none;
+  /* 立体按钮边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 5rpx solid #1a1a1a;
+  border-bottom: 5rpx solid #1a1a1a;
+  box-sizing: border-box;
+}
+
+.action-btn:active {
+  opacity: 1;
+  transform: translateY(2rpx);
+  border-top: 4rpx solid #1a1a1a;
+  border-left: 4rpx solid #1a1a1a;
+  border-right: 2rpx solid #cccccc;
+  border-bottom: 2rpx solid #cccccc;
+}
+
+.action-btn.edit {
+  background-color: #ffffff;
+  color: #2e7d32;
+}
+
+.action-btn.status {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.action-btn.delete {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border-right-color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0;
+  text-align: center;
+}
+
+.empty-state .van-icon {
+  margin-bottom: 32rpx;
+  opacity: 0.5;
+  color: #1a1a1a;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #1a1a1a;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.empty-subtext {
+  font-size: 26rpx;
+  color: #5a5a5a;
+  margin-bottom: 32rpx;
+}
+
+.create-btn {
+  background-color: #2e7d32;
+  color: #ffffff;
+  border: 4rpx solid #1a1a1a;
+  border-radius: 6rpx;
+  padding: 24rpx 48rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-top: 24rpx;
+  box-sizing: border-box;
+  /* 立体按压效果 */
+  border-top-width: 2rpx;
+  border-left-width: 2rpx;
+  border-right-width: 5rpx;
+  border-bottom-width: 5rpx;
+}
+
+/* 悬浮创建按钮 - 立体粗边框 */
+.create-order-btn {
+  position: fixed;
+  bottom: 140rpx;
+  right: 32rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: #2e7d32;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  z-index: 999;
+  /* 立体粗边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 6rpx solid #1a1a1a;
+  border-bottom: 6rpx solid #1a1a1a;
+  box-sizing: border-box;
+}
+
+.create-order-btn:active {
+  transform: translateY(2rpx);
+  border-top: 4rpx solid #1a1a1a;
+  border-left: 4rpx solid #1a1a1a;
+  border-right: 2rpx solid #cccccc;
+  border-bottom: 2rpx solid #cccccc;
+}
+
+/* 底部安全区域 */
+.bottom-safe-area {
+  height: env(safe-area-inset-bottom);
+  background-color: transparent;
+}

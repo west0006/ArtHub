@@ -1,0 +1,70 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/studios/studios",
+    "pages/home/home",
+    "pages/AiTool/AiTool",
+    "pages/contact/contact",
+    "pages/add/add",
+    "pages/detail/detail",
+    "pages/orderView/orderView",
+    "pages/Slib/Slib",
+    "pages/income/income",
+    "pages/search/search",
+    "pages/cDetail/cDetail",
+    "pages/edit/edit",
+    "pages/profile/profile",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/home"
+      },
+      {
+        "text": "资源",
+        "pagePath": "pages/studios/studios"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/contact/contact"
+      }
+    ],
+    "borderStyle": "black",
+    "color": "#eee",
+    "backgroundColor": "#eee",
+    "selectedColor": "#aaa",
+    "custom": true,
+    "position": "bottom"
+  },
+  "componentFramework": "glass-easel",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-image": "@vant/weapp/image/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-transition": "@vant/weapp/transition/index",
+    "van-loading": "@vant/weapp/loading/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-nav-bar": "@vant/weapp/nav-bar/index"
+   
+  }
+}

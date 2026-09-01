@@ -1,0 +1,8 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "订单编辑",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff",
+  "enablePullDownRefresh": false
+}

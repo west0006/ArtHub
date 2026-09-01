@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "van-dialog": "@vant/weapp/dialog/index"
+  },
+  "navigationBarTitleText": "资源库",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff"
+}

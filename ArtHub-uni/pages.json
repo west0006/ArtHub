@@ -1,0 +1,153 @@
+{
+  "easycom": {
+    "autoscan": true
+  },
+  "pages": [{
+      "path": "pages/auth/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/calendar",
+      "style": {
+        "navigationBarTitleText": "档期总览",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/resource/list",
+      "style": {
+        "navigationBarTitleText": "资源",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/agent",
+      "style": {
+        "navigationBarTitleText": "花菜",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/contact/index",
+      "style": {
+        "navigationBarTitleText": "个人"
+      }
+    },
+    {
+      "path": "pages/order/add",
+      "style": {
+        "navigationBarTitleText": "新建排单"
+      }
+    },
+    {
+      "path": "pages/order/detail",
+      "style": {
+        "navigationBarTitleText": "订单详情",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/manage",
+      "style": {
+        "navigationBarTitleText": "订单管理"
+      }
+    },
+    {
+      "path": "pages/contact/lib",
+      "style": {
+        "navigationBarTitleText": "资源库"
+      }
+    },
+    {
+      "path": "pages/contact/income",
+      "style": {
+        "navigationBarTitleText": "收入统计"
+      }
+    },
+    {
+      "path": "pages/resource/search",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/resource/detail",
+      "style": {
+        "navigationBarTitleText": "素材详情"
+      }
+    },
+    {
+      "path": "pages/order/edit",
+      "style": {
+        "navigationBarTitleText": "订单编辑"
+      }
+    },
+    {
+      "path": "pages/contact/edit",
+      "style": {
+        "navigationBarTitleText": "编辑资料"
+      }
+    },
+    {
+      "path": "pages/settings",
+      "style": {
+        "navigationBarTitleText": "设置"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "艺栈",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#eee",
+    "selectedColor": "#aaa",
+    "backgroundColor": "#eee",
+    "borderStyle": "black",
+    "list": [{
+        "text": "首页",
+        "pagePath": "pages/resource/list"
+      },
+      {
+        "text": "排期",
+        "pagePath": "pages/order/calendar"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/contact/index"
+      }
+    ]
+  },
+  "mp-weixin": {
+    "globalStyle": {
+      "usingComponents": {
+        "van-icon": "@vant/weapp/icon/index",
+        "van-button": "@vant/weapp/button/index",
+        "van-popup": "@vant/weapp/popup/index",
+        "van-cell": "@vant/weapp/cell/index",
+        "van-transition": "@vant/weapp/transition/index",
+        "van-loading": "@vant/weapp/loading/index",
+        "van-tabbar": "@vant/weapp/tabbar/index",
+        "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+        "van-row": "@vant/weapp/row/index",
+        "van-col": "@vant/weapp/col/index",
+        "van-search": "@vant/weapp/search/index",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-grid": "@vant/weapp/grid/index",
+        "van-grid-item": "@vant/weapp/grid-item/index",
+        "van-tag": "@vant/weapp/tag/index",
+        "van-nav-bar": "@vant/weapp/nav-bar/index",
+        "van-action-sheet": "@vant/weapp/action-sheet/index",
+        "van-dialog": "@vant/weapp/dialog/index"
+      }
+    }
+  }
+}

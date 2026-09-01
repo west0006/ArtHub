@@ -1,0 +1,120 @@
+<view class="page-container">
+  <scroll-view class="content-scroll" scroll-y>
+    <!-- 图片展示区域 -->
+    <view class="image-container">
+      <image class="main-image" 
+             src="{{materialData.imageUrl || '../../images/t1.png'}}" 
+             mode="widthFix" 
+             binderror="onImageError" 
+             show-menu-by-longpress />
+    </view>
+
+    <!-- 素材信息 -->
+    <view class="material-info">
+      <view class="info-header">
+        <text class="material-title">{{materialData.title || '素材标题'}}</text>
+      </view>
+
+      <!-- 作者信息 -->
+      <view class="author-section">
+        <image class="author-avatar" src="{{materialData.authorAvatar || '../../images/t1.png'}}" mode="aspectFill" />
+        <view class="author-info">
+          <text class="author-name">{{materialData.author || '未知作者'}}</text>
+        </view>
+        <button class="follow-btn {{materialData.isFollowing ? 'followed' : ''}}" bindtap="onFollow">
+          {{materialData.isFollowing ? '已关注' : '关注'}}
+        </button>
+      </view>
+
+      <!-- 标签 -->
+      <view class="tags-section" wx:if="{{materialData.tags && materialData.tags.length > 0}}">
+        <text class="section-label">标签</text>
+        <view class="tags-container">
+          <view class="tag-item" wx:for="{{materialData.tags}}" wx:key="*this">
+            <text class="tag-text">#{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 描述 -->
+      <view class="description-section" wx:if="{{materialData.description}}">
+        <text class="section-label">描述</text>
+        <text class="description-text">{{materialData.description}}</text>
+      </view>
+
+      <!-- 详细信息 -->
+      <view class="details-section">
+        <text class="section-label">详细信息</text>
+        <view class="details-grid">
+          <view class="detail-item">
+            <text class="detail-label">类型</text>
+            <text class="detail-value">{{materialData.resourceType === 'material' ? '素材' : '教程'}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">分类</text>
+            <text class="detail-value">{{materialData.type || '未知'}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{materialData.fileSize}}">
+            <text class="detail-label">大小</text>
+            <text class="detail-value">{{materialData.fileSize}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{materialData.dimension}}">
+            <text class="detail-label">尺寸</text>
+            <text class="detail-value">{{materialData.dimension}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 相关推荐 -->
+      <view class="related-section" wx:if="{{relatedMaterials.length > 0}}">
+        <view class="section-header">
+          <text class="section-label">相关推荐</text>
+        </view>
+        <scroll-view class="related-scroll" scroll-x>
+          <view class="related-list">
+            <view class="related-item" wx:for="{{relatedMaterials}}" wx:key="id" bindtap="onRelatedTap" data-id="{{item.id}}">
+              <image class="related-image" src="{{item.imageUrl || '../../images/t1.png'}}" mode="aspectFill" />
+              <text class="related-title">{{item.title}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+
+    <view class="bottom-safe-area"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="fixed-bottom-actions">
+    <view class="action-buttons">
+      <!-- 外部图库资源：导入 -->
+      <view wx:if="{{materialData.resourceType === 'material' && materialData.source && !materialData.isCollected}}"
+            class="action-btn add-btn" bindtap="onAddToLibrary">
+        <van-icon name="plus" size="32rpx" color="#ffffff" />
+        <text>导入到库</text>
+      </view>
+      <!-- 外部图库资源已导入 -->
+      <view wx:elif="{{materialData.resourceType === 'material' && materialData.source && materialData.isCollected}}"
+            class="action-btn add-btn" bindtap="onAddToLibrary">
+        <van-icon name="success" size="32rpx" color="#ffffff" />
+        <text>已导入</text>
+      </view>
+      <!-- 个人素材：移除 -->
+      <view wx:elif="{{materialData.resourceType === 'material' && !materialData.source}}"
+            class="action-btn remove-btn" bindtap="onAddToLibrary">
+        <van-icon name="delete-o" size="32rpx" color="#ffffff" />
+        <text>从库中移除</text>
+      </view>
+      <!-- 教程资源：暂无操作 -->
+      <view wx:else class="action-btn add-btn" style="background:#ccc;">
+        <van-icon name="info-o" size="32rpx" color="#ffffff" />
+        <text>暂不支持</text>
+      </view>
+
+      <view class="action-btn download-btn" bindtap="onDownload">
+        <van-icon name="down" size="32rpx" color="#ffffff" />
+        <text>下载</text>
+      </view>
+    </view>
+  </view>
+</view>

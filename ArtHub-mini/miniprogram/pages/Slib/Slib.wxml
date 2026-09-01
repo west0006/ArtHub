@@ -1,0 +1,166 @@
+<view class="page-container {{isDarkMode ? 'dark-mode' : ''}}">
+  <!-- 导航栏（已存在，但需添加视图切换按钮） -->
+  <view class="nav-header">
+    <!-- <text class="nav-title"></text> -->
+    <view class="nav-actions">
+      <view class="view-switch">
+        <view class="view-btn {{currentView === 'grid' ? 'active' : ''}}" bindtap="onViewChange" data-view="grid">
+          <van-icon name="apps-o" size="28rpx" />
+        </view>
+        <view class="view-btn {{currentView === 'list' ? 'active' : ''}}" bindtap="onViewChange" data-view="list">
+          <van-icon name="bars" size="28rpx" />
+        </view>
+      </view>
+      <view class="search-btn" bindtap="onSearch">
+        <van-icon name="search" size="32rpx" color="var(--main-text)" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计卡片（默认隐藏，可改为 true 显示） -->
+  <view class="stats-section" wx:if="{{false}}">
+    <view class="stats-cards">
+      <view class="stat-card">
+        <van-icon name="photo-o" size="48rpx" color="var(--main-color)" />
+        <view class="stat-content">
+          <text class="stat-value">{{stats.materials}}</text>
+          <text class="stat-label">素材</text>
+        </view>
+      </view>
+      <view class="stat-card">
+        <van-icon name="video-o" size="48rpx" color="var(--main-color)" />
+        <view class="stat-content">
+          <text class="stat-value">{{stats.tutorials}}</text>
+          <text class="stat-label">教程</text>
+        </view>
+      </view>
+      <view class="stat-card">
+        <van-icon name="star-o" size="48rpx" color="var(--main-color)" />
+        <view class="stat-content">
+          <text class="stat-value">{{stats.totalSize}}</text>
+          <text class="stat-label">总大小</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 标签页 -->
+  <view class="tabs-section">
+    <view class="custom-tabs">
+      <view class="tab-item {{currentTab === 'materials' ? 'active' : ''}}" bindtap="onTabChange" data-tab="materials">
+        <van-icon name="photo-o" size="32rpx" />
+        <text>素材</text>
+        <view class="tab-badge" wx:if="{{stats.materials > 0}}">{{stats.materials}}</view>
+      </view>
+      <view class="tab-item {{currentTab === 'tutorials' ? 'active' : ''}}" bindtap="onTabChange" data-tab="tutorials">
+        <van-icon name="video-o" size="32rpx" />
+        <text>教程</text>
+        <view class="tab-badge" wx:if="{{stats.tutorials > 0}}">{{stats.tutorials}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 资源列表 -->
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="resources-container">
+      <!-- 网格布局 -->
+      <view class="resources-grid" wx:if="{{currentView === 'grid'}}">
+        <view class="resource-card {{selectedResources.includes(item.id) ? 'selected' : ''}}"
+              wx:for="{{currentResources}}" wx:key="id"
+              bindtap="onResourceTap" bindlongpress="onResourceLongPress" data-item="{{item}}">
+          <view class="card-image">
+            <image class="resource-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
+            <view class="card-badges">
+              <view class="type-badge {{item.resourceType}}">
+                {{item.resourceType === 'material' ? '素' : '教'}}
+              </view>
+              <view class="selected-badge" wx:if="{{selectedResources.includes(item.id)}}">
+                <van-icon name="success" size="20rpx" color="#ffffff" />
+              </view>
+            </view>
+            <view class="card-actions">
+              <view class="action-btn" catchtap="onQuickAction" data-action="use" data-id="{{item.id}}">
+                <van-icon name="plus" size="24rpx" color="#ffffff" />
+              </view>
+            </view>
+          </view>
+          <view class="card-content">
+            <text class="resource-title">{{item.title}}</text>
+            <view class="resource-meta">
+              <text class="resource-info">{{item.fileSize}} • {{item.type}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 列表布局 -->
+      <view class="resources-list" wx:else>
+        <view class="resource-item {{selectedResources.includes(item.id) ? 'selected' : ''}}"
+              wx:for="{{currentResources}}" wx:key="id"
+              bindtap="onResourceTap" bindlongpress="onResourceLongPress" data-item="{{item}}">
+          <view class="item-image">
+            <image class="resource-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
+            <view class="type-badge {{item.resourceType}}">
+              {{item.resourceType === 'material' ? '素' : '教'}}
+            </view>
+            <view class="selected-overlay" wx:if="{{selectedResources.includes(item.id)}}">
+              <van-icon name="success" size="24rpx" color="#ffffff" />
+            </view>
+          </view>
+          <view class="item-content">
+            <view class="item-header">
+              <text class="resource-title">{{item.title}}</text>
+              <view class="item-actions">
+                <van-icon name="ellipsis" size="32rpx" color="var(--low-color)" catchtap="onItemAction" data-item="{{item}}" />
+              </view>
+            </view>
+            <text class="resource-desc" wx:if="{{item.description}}">{{item.description}}</text>
+            <view class="item-meta">
+              <text class="meta-text">{{item.fileSize}}</text>
+              <text class="meta-text">{{item.type}}</text>
+            </view>
+            <view class="item-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+              <view class="tag" wx:for="{{item.tags.slice(0, 3)}}" wx:key="*this">
+                <text>#{{item}}</text>
+              </view>
+              <text class="more-tags" wx:if="{{item.tags.length > 3}}">+{{item.tags.length - 3}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{currentResources.length === 0}}">
+        <van-icon name="photo-o" size="120rpx" color="var(--low-color)" />
+        <text class="empty-text">{{currentTab === 'materials' ? '暂无素材' : '暂无教程'}}</text>
+        <text class="empty-subtext">去发现页面添加一些资源吧</text>
+        <button class="discover-btn" bindtap="goToDiscover">去发现</button>
+      </view>
+    </view>
+    <view class="bottom-safe-area"></view>
+  </scroll-view>
+
+  <!-- 底部批量操作栏（固定） -->
+  <view class="fixed-bottom-actions" wx:if="{{selectedResources.length > 0}}">
+    <view class="batch-actions">
+      <text class="selected-count">已选 {{selectedResources.length}} 个</text>
+      <view class="batch-btns">
+        <view class="batch-btn" bindtap="onBatchDelete">
+          <van-icon name="delete-o" size="28rpx" />
+          <text>删除</text>
+        </view>
+        <view class="batch-btn" bindtap="onBatchDownload">
+          <van-icon name="down" size="28rpx" />
+          <text>下载</text>
+        </view>
+        <view class="batch-btn cancel-btn" bindtap="clearSelection">
+          <van-icon name="close" size="28rpx" />
+          <text>取消</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作菜单 -->
+  <van-action-sheet show="{{showActionSheet}}" actions="{{actionItems}}" bind:close="onCloseActionSheet" bind:select="onActionSelect" close-on-click-action />
+</view>

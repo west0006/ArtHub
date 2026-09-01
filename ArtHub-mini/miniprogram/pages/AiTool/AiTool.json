@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index",
+    "van-popup": "@vant/weapp/popup/index"
+  },
+  "navigationBarTitleText": "花菜",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff",
+  "enablePullDownRefresh": false
+}

@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "ai_float":"/components/ai_float/ai_float"
+  },
+  "navigationBarTitleText": "资源",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff"
+}

@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "艺栈",
+    "slug": "ArtHub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splash-icon.png",
+    "scheme": "ArtHub",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.yizhan"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/splash-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.yourcompany.yizhan"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "@react-native-community/datetimepicker"
+    ]
+  }
+}

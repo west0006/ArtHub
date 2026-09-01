@@ -1,0 +1,84 @@
+<view class="page-container">
+
+  <!-- 表单区域 -->
+  <scroll-view scroll-y class="form-scroll">
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <view class="section-title">基本信息</view>
+      
+      <view class="form-item">
+        <text class="form-label">橱窗名称</text>
+        <input class="form-input" placeholder="请输入" value="{{formData.windowName}}" bindinput="onInputChange" data-field="windowName" />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">客户名称</text>
+        <input class="form-input" placeholder="请输入" value="{{formData.clientName}}" bindinput="onInputChange" data-field="clientName" />
+      </view>
+
+      <view class="form-item form-row">
+        <view class="form-half">
+          <text class="form-label">价格</text>
+          <input class="form-input" type="digit" placeholder="请输入" value="{{formData.price}}" bindinput="onNumberInput" data-field="price" />
+        </view>
+        <view class="form-half">
+          <text class="form-label">数量</text>
+          <input class="form-input" type="number" placeholder="请输入" value="{{formData.quantity}}" bindinput="onNumberInput" data-field="quantity" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 时间安排 -->
+    <view class="form-section">
+      <view class="section-title">时间安排</view>
+
+      <view class="form-item">
+        <text class="form-label">开始日期</text>
+        <picker mode="date" value="{{formData.startDate}}" bindchange="onDateChange" data-field="startDate">
+          <view class="picker-value">{{formData.startDate || '请选择日期'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">截止日期</text>
+        <picker mode="date" value="{{formData.deadline}}" bindchange="onDateChange" data-field="deadline">
+          <view class="picker-value">{{formData.deadline || '请选择日期'}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 要求描述 -->
+    <view class="form-section">
+      <view class="section-title">要求描述</view>
+      <textarea class="form-textarea" placeholder="请输入要求描述" value="{{formData.description}}" bindinput="onInputChange" data-field="description" auto-height />
+    </view>
+
+    <!-- 设定信息 -->
+    <view class="form-section">
+      <view class="section-title">设定信息</view>
+      <textarea class="form-textarea" placeholder="请输入设定信息" value="{{formData.settingInfo}}" bindinput="onInputChange" data-field="settingInfo" auto-height />
+    </view>
+
+    <!-- 参考图片（只读展示，暂不提供编辑） -->
+    <view class="form-section" wx:if="{{formData.referenceImages && formData.referenceImages.length > 0}}">
+      <view class="section-title">参考图片 ({{formData.referenceImages.length}})</view>
+      <view class="images-grid">
+        <view class="image-item" wx:for="{{formData.referenceImages}}" wx:key="*this" bindtap="previewImage" data-url="{{item}}">
+          <image class="reference-image" src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view style="height: 120rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <button class="btn cancel" bindtap="onCancel">取消</button>
+    <button class="btn save" bindtap="onSave">保存</button>
+  </view>
+
+  <!-- 底部安全区域 -->
+  <view class="bottom-safe-area"></view>
+</view>

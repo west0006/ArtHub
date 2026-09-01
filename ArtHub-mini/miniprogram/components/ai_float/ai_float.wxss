@@ -1,0 +1,148 @@
+/* components/ai-float-assistant/index.wxss - 夸克立体粗边框 + 绿色点缀 */
+
+.float-assistant {
+  position: fixed;
+  right: 30rpx;
+  bottom: 150rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;                     /* 直角小圆角，与整体统一 */
+  background-color: #2e7d32;               /* 绿色背景 */
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+  /* 立体粗边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 6rpx solid #1a1a1a;
+  border-bottom: 6rpx solid #1a1a1a;
+}
+
+.float-assistant:active {
+  transform: scale(0.95) translateY(2rpx);
+  border-top: 4rpx solid #1a1a1a;
+  border-left: 4rpx solid #1a1a1a;
+  border-right: 2rpx solid #cccccc;
+  border-bottom: 2rpx solid #cccccc;
+}
+
+.ai-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 4rpx;                    /* 图标本身也可微圆角 */
+}
+
+/* 气泡容器 - 立体粗边框 */
+.bubble {
+  position: absolute;
+  right: 120rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  padding: 20rpx 32rpx;
+  max-width: 580rpx;
+  font-size: 26rpx;                       /* 略调大更清晰 */
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* 立体粗边框 */
+  border-top: 2rpx solid #cccccc;
+  border-left: 2rpx solid #cccccc;
+  border-right: 5rpx solid #1a1a1a;
+  border-bottom: 5rpx solid #1a1a1a;
+  
+  opacity: 0;
+  transform: translateY(-50%) scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+/* 气泡显示状态 */
+.bubble.show {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* 气泡箭头 - 用立体边框实现 */
+.bubble-arrow {
+  position: absolute;
+  right: -20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  /* 箭头填充为白色，与气泡背景一致 */
+  border-left: 20rpx solid #ffffff;
+  border-top: 16rpx solid transparent;
+  border-bottom: 16rpx solid transparent;
+  filter: none;
+  z-index: 2;
+}
+
+/* 箭头外边框（立体感） */
+.bubble-arrow::after {
+  content: '';
+  position: absolute;
+  left: -24rpx;
+  top: -16rpx;
+  width: 0;
+  height: 0;
+  /* 深色边框模拟立体右侧阴影 */
+  border-left: 22rpx solid #1a1a1a;
+  border-top: 18rpx solid transparent;
+  border-bottom: 18rpx solid transparent;
+  z-index: -1;
+}
+
+/* 箭头左侧浅色边（立体光照感） */
+.bubble-arrow::before {
+  content: '';
+  position: absolute;
+  left: -22rpx;
+  top: -15rpx;
+  width: 0;
+  height: 0;
+  border-left: 20rpx solid #cccccc;
+  border-top: 15rpx solid transparent;
+  border-bottom: 15rpx solid transparent;
+  z-index: -1;
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .float-assistant {
+    background-color: #2e7d32;             /* 保持绿色主调 */
+    border-top-color: #5a5a5a;
+    border-left-color: #5a5a5a;
+    border-right-color: #000000;
+    border-bottom-color: #000000;
+  }
+  
+  .bubble {
+    background-color: #2d2d2d;
+    border-top-color: #5a5a5a;
+    border-left-color: #5a5a5a;
+    border-right-color: #000000;
+    border-bottom-color: #000000;
+    color: #f0f0f0;
+  }
+  
+  .bubble-arrow {
+    border-left-color: #2d2d2d;
+  }
+  
+  .bubble-arrow::before {
+    border-left-color: #5a5a5a;
+  }
+  
+  .bubble-arrow::after {
+    border-left-color: #000000;
+  }
+}

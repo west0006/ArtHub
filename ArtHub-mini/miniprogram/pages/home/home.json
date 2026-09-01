@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "custom-modal": "/components/modal/modal",
+    "ai_float":"/components/ai_float/ai_float"
+  },
+  "navigationBarTitleText": "档期总览",
+  "navigationBarBackgroundColor": "#2e7d32",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#ffffff",
+  "enablePullDownRefresh": true
+}

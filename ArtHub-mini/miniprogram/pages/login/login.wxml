@@ -1,0 +1,31 @@
+<view class="login-container">
+  <view class="logo-area">
+    <image class="logo" src="{{'../../images/t1.png'}}" mode="widthFix"></image>
+    <text class="app-name">艺栈</text>
+    <text class="slogan">灵感·订单·素材·AI</text>
+  </view>
+
+  <!-- 已登录状态展示 -->
+  <block wx:if="{{isLogin}}">
+    <view class="user-info">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <text class="nickname">{{userInfo.nickName}}</text>
+    </view>
+    <button class="logout-btn" bindtap="onLogout">退出登录</button>
+    <view class="tip">登录后可在不同设备同步数据</view>
+  </block>
+
+  <!-- 未登录状态 -->
+  <block wx:else>
+    <button class="wx-login-btn" bindtap="wechatLogin">
+  <van-icon name="wechat" size="40rpx" color="#fff" />
+  微信一键登录
+</button>
+    <view class="guest-btn" bindtap="onGuest">暂不登录，继续使用</view>
+    <view class="privacy-tip">
+      点击登录即表示同意
+      <text class="link" bindtap="onPrivacy">《用户协议》</text>及
+      <text class="link" bindtap="onPrivacy">《隐私政策》</text>
+    </view>
+  </block>
+</view>

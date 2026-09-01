@@ -1,0 +1,139 @@
+/* 登录页样式 - 夸克粗边框圆角风 + 绿色点缀 */
+
+page {
+  background-color: #ffffff;                /* 纯白背景 */
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 60rpx 48rpx;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 80rpx;                    /* 原尺寸保留 */
+}
+
+.logo {
+  width: 160rpx;                           /* 原尺寸保留 */
+  height: 160rpx;
+  margin-bottom: 24rpx;
+  border-radius: 8rpx;                     /* 改为直角圆角，与整体统一 */
+  border: 6rpx solid #1a1a1a;              /* 粗黑边框 */
+  box-sizing: border-box;
+}
+
+.app-name {
+  display: block;
+  font-size: 42rpx;                        /* 原48rpx → 42rpx，略调小 */
+  font-weight: 700;
+  color: #1a1a1a;                          /* 近黑色 */
+  margin-bottom: 12rpx;
+  letter-spacing: -0.5px;
+}
+
+.slogan {
+  font-size: 24rpx;                        /* 原26rpx → 24rpx */
+  color: #5a5a5a;                          /* 次级文字 */
+  font-weight: 500;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;                    /* 原尺寸保留 */
+}
+
+.avatar {
+  width: 120rpx;                           /* 原尺寸保留 */
+  height: 120rpx;
+  border-radius: 8rpx;                     /* 统一圆角 */
+  border: 6rpx solid #1a1a1a;              /* 粗黑边框 */
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+}
+
+.nickname {
+  font-size: 30rpx;                        /* 原32rpx → 30rpx */
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* 微信登录按钮 - 绿色背景，粗黑边框 */
+.wx-login-btn {
+  width: 100%;
+  background-color: #2e7d32;               /* 主绿色 */
+  color: #ffffff;
+  border-radius: 8rpx;                     /* 直角圆角 */
+  height: 88rpx;                           /* 原尺寸保留 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;                        /* 原32rpx → 30rpx */
+  font-weight: 700;
+  gap: 12rpx;
+  border: 6rpx solid #1a1a1a;              /* 粗黑边框 */
+  margin-bottom: 24rpx;
+  box-sizing: border-box;
+}
+
+.wx-login-btn::after {
+  border: none;
+}
+
+/* 游客按钮 - 白底黑字，粗黑边框 */
+.guest-btn {
+  width: 100%;
+  text-align: center;
+  font-size: 26rpx;                        /* 原28rpx → 26rpx */
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 24rpx 0;                        /* 原尺寸保留 */
+  border-radius: 8rpx;
+  background-color: #ffffff;
+  border: 6rpx solid #1a1a1a;              /* 粗黑边框 */
+  margin-bottom: 48rpx;
+  box-sizing: border-box;
+}
+
+/* 退出登录按钮 - 白底黑字，粗边框 */
+.logout-btn {
+  width: 60%;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border-radius: 8rpx;
+  height: 80rpx;                           /* 原尺寸保留 */
+  font-size: 26rpx;                        /* 原28rpx → 26rpx */
+  font-weight: 600;
+  margin-bottom: 24rpx;
+  border: 6rpx solid #1a1a1a;
+  box-sizing: border-box;
+}
+
+.tip {
+  font-size: 22rpx;                        /* 原24rpx → 22rpx */
+  color: #5a5a5a;
+  text-align: center;
+}
+
+.privacy-tip {
+  font-size: 22rpx;                        /* 原24rpx → 22rpx */
+  color: #5a5a5a;
+  text-align: center;
+  margin-top: 40rpx;
+}
+
+.link {
+  color: #2e7d32;                          /* 绿色链接 */
+  text-decoration: none;                   /* 去除下划线，用粗边框风格替代 */
+  font-weight: 700;
+  margin: 0 4rpx;
+  border-bottom: 2rpx solid #2e7d32;       /* 绿色下划线强调 */
+}

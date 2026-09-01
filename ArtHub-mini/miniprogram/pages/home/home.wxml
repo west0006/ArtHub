@@ -1,0 +1,73 @@
+<!-- pages/calendar/index.wxml -->
+<view class="page-container calendar-page">
+	<view class="bottom-safe-area" style="height: 40rpx;"></view>
+	<!-- 顶部状态信息 -->
+	<view class="status-bar">
+		<view class="status-item">
+			<text class="status-label">当前状态：</text>
+			<view class="status-value free-status" wx:if="{{currentStatus=='free'}}">空闲</view>
+			<view class="status-value busy-status" wx:elif="{{currentStatus=='dead'}}">超时</view>
+			<view class="status-value busy-status" wx:else="{{currentStatus=='busy'}}">忙碌</view>
+		</view>
+		<view class="status-item">
+			<text class="status-label">当前截稿日：</text>
+			<view class="status-value deadline" wx:if="{{deadlineDays&&deadlineDays>0}}">{{deadlineDays}}天后</view>
+			<view class="status-value deadline" wx:elif="{{!deadlineDays&&deadToday}}">今天</view>
+			<view class="status-value deadline" wx:elif="{{nearestOrder&&deadlineDays && deadlineDays<0}}">超时{{-deadlineDays}}天</view>
+			<view class="status-value next-order" wx:else>
+				无
+			</view>
+		</view>
+		<view class="status-item">
+			<text class="status-label">最近订单：</text>
+			<view class="status-value next-order" wx:if="{{nearestOrder!==null&&nearestOrderStartDays>0}}">
+				{{nearestOrderStartDays}}天后开始
+			</view>
+			<view class="status-value next-order" wx:elif="{{nearestOrder!==null&&nearestOrderStartDays<1}}"> 进行中</view>
+			<view class="status-value next-order" wx:else>
+				无
+			</view>
+		</view>
+		<view class="status-item">
+			<text class="status-label">未完成稿件：</text>
+			<view class="status-value order-name" wx:if="{{orderCount>0}}" >{{orderCount}}</view>
+			<view class="status-value order-name" wx:else>无</view>
+		</view>
+	</view>
+
+	<!-- 月份容器 -->
+	<scroll-view class="calendar-scroll" scroll-y>
+		<view class="months-container">
+			<view class="month-card" wx:for="{{monthsData}}" wx:key="index">
+				<!-- 月份标题 -->
+				<view class="month-header">
+					<text class="month-title">{{item.year}}年{{item.month}}月</text>
+				</view>
+
+				<!-- 星期标题 -->
+				<view class="weekdays">
+					<view class="weekday" wx:for="{{['日', '一', '二', '三', '四', '五', '六']}}" wx:key="*this">
+						<text class="weekday-text">{{item}}</text>
+					</view>
+				</view>
+
+				<!-- 日期网格 -->
+				<view class="days-grid">
+					<view class="day {{getDayClass(item)}}" wx:for="{{item.days}}" wx:key="index" wx:for-item="theDay" bindtap="onDayTap" data-time="{{theDay.date}}" data-order-id="{{theDay.orderId}}">
+						<text class="day-text {{theDay.hasOrder ? 'has-order-text' : ''}} {{theDay.isCurrentMonth ? '' : 'other-month'}} {{ theDay.hasOrder&&!theDay.isCurrentMonth?'other-month-order':''}}">{{theDay.day}}</text>
+						<view class="order-indicator {{theDay.isCurrentMonth ? '' : 'other-month'}} {{theDay.hasOrder&&theDay.orderStatus?'free':''}}" wx:if="{{theDay.hasOrder}}"></view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<custom-modal show="{{showConfirmModal}}" title="{{modalTitle}}" cancelText="{{modalCancelText}}" confirmText="{{modalConfirmText}}" bind:cancel="onConfirmModalCancel" bind:confirm="onConfirmModalConfirm" bind:close="onConfirmModalClose">
+			<view style="color: var(--com-text); ">
+				{{modalContent}}
+			</view>
+		</custom-modal>
+
+		<ai_float/>
+		<!-- 底部安全区域 -->
+		<view class="bottom-safe-area" style="height: 40rpx;"></view>
+	</scroll-view>
+</view>
