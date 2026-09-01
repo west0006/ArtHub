@@ -175,8 +175,8 @@ class ImageAnalyzer:
             except Exception as e:
                 print(f"OWL-ViT 检测失败: {e}")
 
-        # 3. 合并检测结果
-        combined_objects = owlvit_objects  # 或者用 _merge_objects(yolo_objects, owlvit_objects)
+        # 3. 合并检测结果（YOLO 为基础，OWL-ViT 补充）
+        combined_objects = self._merge_objects(yolo_objects, owlvit_objects)
 
         # 4. 对每个合并后的物体进行区域颜色分析
         detailed_objects = []

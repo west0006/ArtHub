@@ -26,7 +26,7 @@ from ddgs import DDGS
 from image_analyzer import ImageAnalyzer
 
 # 创建全局分析器实例
-image_analyzer = ImageAnalyzer(use_tencent=False, use_yolo=False, use_owlvit=True)
+image_analyzer = ImageAnalyzer(use_tencent=False, use_yolo=True, use_owlvit=True)
 
 # 【必填配置区】
 # 豆包API配置（真实密钥从环境变量读取，勿硬编码）
