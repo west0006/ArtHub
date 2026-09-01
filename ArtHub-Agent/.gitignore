@@ -1,0 +1,31 @@
+# ArtHub-Agent 仅在 git 中保留 src/（纯源码）与 requirements.txt、.env.example。
+# 以下内容一律不提交。
+
+# ---- 密钥 / 环境 ----
+.env
+.env.*
+!.env.example
+
+# ---- 本地运行数据 / 提示词 / 知识库（含敏感笔记）----
+/data/
+
+# ---- 模型 / 推理产物 ----
+/models/
+*.pt
+*.onnx
+*.pth
+*.bin
+*.safetensors
+__pycache__/
+*.pyc
+
+# ---- 3.13 旧版归档（本地备份，不进 git）----
+/_archive_313/
+
+# ---- 虚拟环境 ----
+.venv/
+.venv310/
+venv/
+
+# ---- IDE ----
+.idea/

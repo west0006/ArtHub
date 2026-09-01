@@ -1,0 +1,38 @@
+# ArtHub-Agent 运行依赖
+# 用法：source <venv>/bin/activate 或 .\Scripts\activate 后
+#   pip install -r requirements.txt
+#
+# 说明：
+#   本清单依据 src/ 下各模块的实际 import 整理，补全了 .venv310 中缺失的运行依赖
+#   （venv 中已装的 numpy/opencv/torch/transformers 等以 >= 兜底，避免锁死破坏 CUDA 兼容）。
+#   GPU 版本如需特定 CUDA 的 torch，请参考 https://pytorch.org/get-started/locally/ 单独安装。
+
+# ---- 基础 ----
+numpy>=1.24
+opencv-python>=4.8
+pillow>=10.0
+requests>=2.31
+
+# ---- Web / API ----
+fastapi>=0.110
+uvicorn>=0.29
+gradio>=4.0
+pydantic>=2.0
+xmltodict>=0.13
+
+# ---- AI 视觉检测 ----
+torch>=2.0
+torchvision>=0.15
+transformers>=4.30
+ultralytics>=8.0          # YOLO 检测（yolo_detector）
+sentence-transformers>=2.0 # 向量化（agent01 中 SentenceTransformer）
+faiss-cpu>=1.7            # 向量检索（agent01 中 faiss；如需 GPU 用 faiss-cpu 即可）
+
+# ---- LLM / 搜索 ----
+ddgs>=9.0
+
+# ---- 加解密 / 安全 ----
+pycryptodome>=3.20        # 提供 Crypto.Cipher.AES / Crypto.Util.Padding
+
+# ---- 密钥管理 ----
+python-dotenv>=1.0
