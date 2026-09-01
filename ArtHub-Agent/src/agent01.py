@@ -1,14 +1,17 @@
 import os
 # 1. 模型国内镜像源
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
-# 2. 禁用SSL验证（解决证书错误）
-os.environ["CURL_CA_BUNDLE"] = ""
-os.environ["PYTHONHTTPSVERIFY"] = "0"
+# 2. 生产默认保留 TLS 证书校验；仅当显式设置 AGENT_INSECURE=1 时才禁用（供离线/自签名证书场景）
+if os.getenv("AGENT_INSECURE") == "1":
+    os.environ["CURL_CA_BUNDLE"] = ""
+    os.environ["PYTHONHTTPSVERIFY"] = "0"
 # 3. pip国内镜像（依赖安装）
 os.environ["PIP_INDEX_URL"] = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 import json
 import time
+import ast
+import secrets
 import gradio as gr
 import requests
 import datetime
@@ -16,7 +19,8 @@ import numpy as np
 import faiss
 import xmltodict
 import hashlib
-from fastapi import FastAPI, Request, Query
+from fastapi import FastAPI, Request, Query, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import base64
@@ -39,6 +43,70 @@ def get_absolute_path(relative_path):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(script_dir)
     return os.path.join(project_root, relative_path)
+
+
+# 安全的算术求值器：仅允许 + - * / 与数字，杜绝任意代码执行（替代 eval）
+_ALLOWED_OPS = (ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Mod)
+
+
+def safe_calc(expr: str):
+    expr = expr.replace("×", "*").replace("÷", "/").replace(" ", "")
+    if not all(c in "0123456789+-*/().% " for c in expr):
+        return None, "表达式包含非法字符"
+    try:
+        tree = ast.parse(expr, mode="eval")
+    except SyntaxError:
+        return None, "表达式语法错误"
+
+    def _eval(node, depth=0):
+        # 递归深度上限，防超深嵌套表达式卡死
+        if depth > 20:
+            raise ValueError("表达式过深")
+        if isinstance(node, ast.Expression):
+            return _eval(node.body, depth)
+        elif isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            return node.value
+        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
+            v = _eval(node.operand, depth + 1)
+            return +v if isinstance(node.op, ast.UAdd) else -v
+        elif isinstance(node, ast.BinOp) and type(node.op) in _ALLOWED_OPS:
+            left = _eval(node.left, depth + 1)
+            right = _eval(node.right, depth + 1)
+            if isinstance(node.op, ast.Div):
+                if right == 0:
+                    raise ValueError("除以零")
+                return left / right
+            if isinstance(node.op, ast.Mod):
+                return left % right
+            if isinstance(node.op, ast.Add):
+                return left + right
+            return left * right  # ast.Sub
+        raise ValueError("不支持的操作")
+
+    try:
+        return _eval(tree), None
+    except (ValueError, ZeroDivisionError, TypeError) as e:
+        return None, str(e)
+
+
+# ---- 鉴权：HTTP Bearer Token（从环境变量 API_AUTH_TOKEN 读取，防时序攻击）----
+_api_auth_token = os.getenv("API_AUTH_TOKEN", "")
+_security = HTTPBearer(auto_error=False)
+
+
+def require_token(
+    credentials: HTTPAuthorizationCredentials = Depends(_security),
+) -> None:
+    """保护业务接口：无 token、token 不匹配均拒绝。token 未配置时拒绝并提示配置。"""
+    token = credentials.credentials if credentials else ""
+    if not _api_auth_token:
+        raise HTTPException(
+            status_code=503,
+            detail="服务未配置鉴权 Token，请设置环境变量 API_AUTH_TOKEN",
+        )
+    if not token or not secrets.compare_digest(token, _api_auth_token):
+        raise HTTPException(status_code=401, detail="无效的访问令牌")
+    return None
 
 
 # 豆包LLM核心模块
@@ -96,13 +164,23 @@ class DoubaoLLM:
 
 # 本地免费向量模型（核心替换）
 class LocalEmbedding:
+    _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
     def __init__(self, model_name="./models/all-MiniLM-L6-v2"):
         """
         可选模型：
         - "all-MiniLM-L6-v2" (默认，轻量最快)
         - "BAAI/bge-small-zh-v1.5" (中文最强)
         - "qwen/Qwen3-Embedding-0.6B" (阿里开源)
+
+        解析规则：传入简单模型名时优先加载项目内 models/<name>（若存在），
+        否则交给 SentenceTransformer 按名称从 Hugging Face 下载。
         """
+        # 传入的是简单模型名（非路径），优先尝试项目内本地模型目录
+        if "/" not in model_name and "\\" not in model_name and model_name not in (".", ".."):
+            local = os.path.join(self._PROJECT_ROOT, "models", model_name)
+            if os.path.isdir(local):
+                model_name = local
         self.model = SentenceTransformer(model_name)
         # 自动获取向量维度
         self.dim = self.model.get_sentence_embedding_dimension()
@@ -204,15 +282,13 @@ class Tools:
         return datetime.datetime.now().strftime("%Y年%m月%d日 %H:%M")
 
     def calculator(self, expr):
-        """安全的计算器"""
+        """安全的计算器（白名单 AST 求值，杜绝任意代码执行）"""
         try:
-            # 仅支持数字和基础运算符
-            safe_expr = expr.replace(" ", "").replace("×", "*").replace("÷", "/")
-            # 简单安全检查：只允许数字、运算符和括号
-            if not all(c in "0123456789+-*/()." for c in safe_expr):
-                return "表达式包含非法字符"
-            return str(eval(safe_expr))
-        except (SyntaxError, ValueError, TypeError) as e:
+            result, err = safe_calc(expr)
+            if err:
+                return f"算错啦：{err}，试试简单的加减乘除吧~"
+            return str(result)
+        except Exception as e:
             print(f"计算错误：{e}")
             return "算错啦，试试简单的加减乘除吧~"
 
@@ -462,7 +538,7 @@ class ChatRequest(BaseModel):
     message: str
 
 # 基础对话
-@app.post("/minichat")
+@app.post("/minichat", dependencies=[Depends(require_token)])
 async def api_chat(request: ChatRequest):
     user_content = request.message
     if not user_content:
@@ -481,9 +557,17 @@ class ImageAnalysisRequest(BaseModel):
     image: str
     prompt: str = ""
 
-@app.post("/analyze-image")
+
+# 图片 Base64 大小上限（约 15MB，防内存滥用）
+MAX_IMAGE_BASE64_LEN = 20 * 1024 * 1024
+
+
+@app.post("/analyze-image", dependencies=[Depends(require_token)])
 async def analyze_image(request: ImageAnalysisRequest):
     try:
+        # 限制输入大小，防止超大 Base64 造成内存/解码过载
+        if len(request.image) > MAX_IMAGE_BASE64_LEN:
+            return {"reply": "图片过大，请压缩后重试（上限约 15MB）。"}
         image_bytes = base64.b64decode(request.image)
         analysis = image_analyzer.analyze_image(image_bytes)
         if "error" in analysis:

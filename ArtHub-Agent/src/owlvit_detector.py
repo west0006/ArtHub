@@ -1,8 +1,11 @@
 import torch
 import cv2
 import numpy as np
+import logging
 from PIL import Image
 from transformers import OwlViTProcessor, OwlViTForObjectDetection
+
+logger = logging.getLogger("owlvit_detector")
 
 class OwlViTDetector:
     def __init__(self, conf_threshold=0.3):
@@ -23,7 +26,7 @@ class OwlViTDetector:
         # dummy_text = [["test"]]
         # with torch.no_grad():
         #     dummy_outputs = self.model(pixel_values=dummy_image, input_ids=torch.ones(1, 5).long().to(self.device))
-        print("模型测试通过")
+        logger.debug("OWL-ViT 模型加载完成")
 
 
     def detect_objects(self, image_bytes):
@@ -42,7 +45,7 @@ class OwlViTDetector:
             results = self.processor.post_process_grounded_object_detection(
                 outputs, target_sizes=target_sizes, threshold=self.conf_threshold
             )[0]
-            print(f"检测结果: boxes数量={len(results['boxes'])}, scores={results['scores']}")
+            logger.debug("检测结果: boxes数量=%s", len(results['boxes']))
 
             objects = []
             for box, score, label_id in zip(results["boxes"], results["scores"], results["labels"]):
@@ -59,7 +62,7 @@ class OwlViTDetector:
             # print(objects)
             return objects
         except Exception as e:
-            print(f"OWL-ViT 检测失败: {e}")
+            logger.warning("OWL-ViT 检测失败: %s", e)
             import traceback
             traceback.print_exc()
             return []

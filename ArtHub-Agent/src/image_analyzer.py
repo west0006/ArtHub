@@ -3,8 +3,11 @@ import numpy as np
 from typing import Dict, Any, List
 import base64
 import os
+import logging
 from yolo_detector import YOLODetector
 from owlvit_detector import OwlViTDetector
+
+logger = logging.getLogger("image_analyzer")
 
 # 腾讯云相关导入（如果有）
 try:
@@ -14,7 +17,7 @@ try:
     from tencentcloud.tiia.v20190529 import tiia_client, models
     TENCENT_AVAILABLE = True
 except ImportError as e:
-    print(f"腾讯云 SDK 导入失败: {e}")
+    logger.warning("腾讯云 SDK 导入失败: %s", e)
     TENCENT_AVAILABLE = False
 
 # 腾讯云配置（真实密钥从环境变量读取，勿硬编码）
@@ -23,13 +26,17 @@ TENCENT_SECRET_KEY = os.getenv("TENCENT_SECRET_KEY", "")
 TENCENT_REGION = os.getenv("TENCENT_REGION", "ap-beijing")
 
 class ImageAnalyzer:
+    # 项目根 = 本文件所在目录的上一级（ArtHub-Agent/）
+    _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
     def __init__(self, use_tencent: bool = True, use_yolo: bool = True,use_owlvit: bool = True):
         self.use_tencent = use_tencent
         self.use_yolo = use_yolo
         self.use_owlvit = use_owlvit
 
         if use_yolo:
-            self.yolo = YOLODetector(model_path="yolov8n.pt", conf_threshold=0.2)
+            model_path = os.path.join(self._PROJECT_ROOT, "models", "yolov8n.pt")
+            self.yolo = YOLODetector(model_path=model_path, conf_threshold=0.2)
 
         if use_owlvit:
             self.owlvit = OwlViTDetector(conf_threshold=0.3)
@@ -50,7 +57,14 @@ class ImageAnalyzer:
     def extract_color_features_from_roi(self, roi_img: np.ndarray) -> Dict[str, Any]:
         """从OpenCV图像区域提取颜色特征"""
         if roi_img.size == 0:
-            return {"error": "empty region"}
+            # 保持返回结构与正常情况一致，调用方无需空指针特判
+            return {
+                "dominant_hues": [],
+                "mean_brightness": 0.0,
+                "contrast": 0.0,
+                "main_color_bgr": [0, 0, 0],
+                "hist_gray": [],
+            }
 
         hsv = cv2.cvtColor(roi_img, cv2.COLOR_BGR2HSV)
         # 色相直方图
@@ -108,7 +122,7 @@ class ImageAnalyzer:
                     "confidence": item.Confidence,
                     "category": getattr(item, 'Category', '')
                 })
-                print(f"腾讯云标签返回: {labels}")  # 添加调试输出
+            logger.debug("腾讯云标签返回: %s", labels)
             return {"success": True, "labels": labels}
         except Exception as e:
             return {"success": False, "error": str(e)}
@@ -167,13 +181,13 @@ class ImageAnalyzer:
             try:
                 yolo_objects = self.yolo.detect_objects(image_bytes)
             except Exception as e:
-                print(f"YOLO 检测失败: {e}")
+                logger.warning("YOLO 检测失败: %s", e)
         owlvit_objects = []
         if self.use_owlvit:
             try:
                 owlvit_objects = self.owlvit.detect_objects(image_bytes)
             except Exception as e:
-                print(f"OWL-ViT 检测失败: {e}")
+                logger.warning("OWL-ViT 检测失败: %s", e)
 
         # 3. 合并检测结果（YOLO 为基础，OWL-ViT 补充）
         combined_objects = self._merge_objects(yolo_objects, owlvit_objects)
@@ -182,9 +196,12 @@ class ImageAnalyzer:
         detailed_objects = []
         for obj in combined_objects:
             x1, y1, x2, y2 = obj["x1"], obj["y1"], obj["x2"], obj["y2"]
-            roi = img[y1:y2, x1:x2]
-            if roi.size == 0:
+            # 将坐标裁剪到图像边界，防止负坐标/越界导致切片异常
+            x1, y1 = max(0, int(x1)), max(0, int(y1))
+            x2, y2 = min(width, int(x2)), min(height, int(y2))
+            if x2 <= x1 or y2 <= y1:
                 continue
+            roi = img[y1:y2, x1:x2]
             color_features = self.extract_color_features_from_roi(roi)
             area = (x2 - x1) * (y2 - y1)
             detailed_objects.append({
@@ -199,7 +216,7 @@ class ImageAnalyzer:
         tencent_labels = {"success": False}
         if self.use_tencent:
             tencent_labels = self.detect_tencent_labels(image_bytes)
-            print("腾讯云结果:", tencent_labels)
+            logger.debug("腾讯云结果: %s", tencent_labels)
 
         # 6. 全局颜色特征
         global_color = self.extract_color_features_from_roi(img)
